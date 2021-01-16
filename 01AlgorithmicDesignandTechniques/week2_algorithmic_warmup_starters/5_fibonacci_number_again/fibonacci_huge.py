@@ -29,21 +29,38 @@ def get_fibonacci_efficient(n):
     F[1] = 1
     for i in range(2,n+1):
         F[i] = F[i-1] + F[i-2]
-    return F[i]
+    return F[n]
 
 
-def get_fibonacci_huge_efficient(n,m):
+def get_fibonacci_huge_not_so_efficient(n,m):
     repeat_period = 0
     for i in range(3,m*m+1):
-        if (get_fibonacci_efficient(i)%m)  == 0 and (get_fibonacci_efficient(i+1)%m) ==1 and \
-            (get_fibonacci_efficient(i+2)%m) ==1:
-            repeat_period = i  # plus 1 because python count from zero
-            break
+        # if (get_fibonacci_efficient(i)%m)  == 0 and (get_fibonacci_efficient(i+1)%m) ==1 and (get_fibonacci_efficient(i+2)%m) ==1:
+        #     repeat_period = i 
+        #     break
+        if get_fibonacci_efficient(i)%m == 0:
+            if get_fibonacci_efficient(i+1)%m ==1:
+                repeat_period = i
+                break
+
     # then compute remainder
     remainder  = n % repeat_period
     return get_fibonacci_efficient(remainder) % m
 
+def get_fibonacci_huge_efficient(n,m):
+    repeat_period = 0
+    previous = 0
+    current  = 1
+    for i in range(0,m*m+1):
+        previous, current = current, (previous + current)%m
+        if previous == 0 and current == 1:
+            repeat_period = i+1
+            # print(repeat_period)
+    # then compute remainder
+    remainder  = n % repeat_period
+    return get_fibonacci_efficient(remainder) % m
 
+print(get_fibonacci_huge_efficient(10,2))
 
 
 # copy ma
@@ -88,5 +105,5 @@ def test_runtime(n,m):
     end = timer()
     print('internet copy ma approach',end - start)
 
-test_runtime(5248888865554,4655)
+# test_runtime(5248888865554,4655)
 

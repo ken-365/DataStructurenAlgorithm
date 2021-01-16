@@ -7,3 +7,5 @@ def calc_fib(n):
 
 n = int(input())
 print(calc_fib(n))
+
+;
